@@ -1,33 +1,30 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import portfolio from 'src/public/portfolio.jpg'
+import planet from 'src/public/Featured-Image-12.png'
+import { useSession, signIn, signOut, getSession } from 'next-auth/react'
 
 export default function Home() {
   return (
-    <div className='bg-blue-200 h-screen w-screen text-white'>
+    <div className='bg-slate-900 h-screen w-screen text-white'>
       <div className='flex justify-end py-10 mr-10 text-white text-xl'>
-        <button className='border-black bg-black rounded-lg border-2 p-3 mr-5 hover:bg-white hover:text-black'> Sign Up </button>
-        <button className='border-black bg-black rounded-lg border-2 p-3 hover:bg-white hover:text-black'> Sign In </button>
-      </div>s
+        <button onClick={() => signIn()} className='border-black bg-black rounded-lg border-2 p-3 hover:bg-white hover:text-black'> Sign In With Google</button>
+      </div>
       <div className='text-center'>
-        <div className='text-4xl font-bold text-black'> Clone Invest
+        <div className='text-4xl font-bold'> Planet Positive
 
         </div>
 
       </div>
 
 
-      <div className='text-center text-xl text-gray-500 justify-center mt-10 font-bold'>
-        <div> View your friend's Robinhood Portfolio Weights</div>
-        <div> Sort by Performance and Risk, and Copy a Portfolio to Your Robinhood Account Instantly...🚀</div>
-        <div className='animate-bounce w-full'>
-          without the <span className='text-black'> fees, </span> or the <span className='text-black'> hassle.🌟 </span>
-        </div>
+      <div className='text-center text-xl text-white justify-center mt-10 font-bold'>
+        <div> search nearby events to keep your community sustainable.</div>
+        make a lasting,  <span className='text-green-500'> green </span> <span> impact🚀 </span>
       </div>
-      <div className='h-fit w-full flex justify-center'>
+      <div className='py-10 h-fit w-full flex justify-center'>
         <Image
           alt="Mountains"
-          src={portfolio}
+          src={planet}
           placeholder="blur"
           width={500}
           height={250}
@@ -37,6 +34,6 @@ export default function Home() {
           }}
         />
       </div>
-    </div>
+    </div >
   )
 }
