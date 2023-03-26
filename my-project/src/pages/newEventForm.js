@@ -1,11 +1,13 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react'
-//import { useSession, signIn, signOut, getSession } from 'next-auth/react'
+import { useSession, signIn, signOut, getSession } from 'next-auth/react'
 import db from './firebase_connect';
 import { collection, addDoc } from "firebase/firestore";
+import {useRouter} from 'next/router'
 
 const Event = () => {
+  const router = useRouter();
 
     const [eventName, setEventName] = useState('eventName');
     const handleEventNameChange = (event) => {
@@ -30,15 +32,17 @@ const Event = () => {
 
     async function submit(e) {
         e.preventDefault();
+        const session = await getSession();
         const docRef = await addDoc(collection(db, "event"), {
             eventName: eventName,
-            organizer: "",
+            organizer: session.user.email,
             location: location,
             date: date,
             time: time,
             numPeopleNeeded: numPeopleNeeded,
             ListOfAttendees: 0
         });
+        router.push('/Home');
         console.log("Document written with ID: ", docRef.id);
     }
 
@@ -85,6 +89,21 @@ const Event = () => {
       </form>
     </div>
   );
+}
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context)
+  console.log(session)
+  if (!session) {
+      return {
+          redirect: {
+              destination: '/Home'
+          }
+      }
+  }
+  return {
+      props: { session },
+  }
 }
 
 export default Event
